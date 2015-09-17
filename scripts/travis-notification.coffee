@@ -7,9 +7,9 @@
 module.exports = (robot) ->
 
   jsk_maintainers = [
-    "Kei Okada",
+    # "Kei Okada",
     "Ryohei Ueda",
-    "Shunichi Nozawa",
+    # "Shunichi Nozawa",
   ]
 
   slack_username_map = {
