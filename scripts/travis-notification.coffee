@@ -37,17 +37,17 @@ module.exports = (robot) ->
       contents = message.text.split(" ")
       repo = contents[6]
       build_link = contents[2].replace("(", "").replace(")", "")
-      pr_link = contents[4].replace("(", "").replace(")", "")
-      reference = "Repo: #{repo}\nBuild: #{build_link}\nPR: #{pr_link}"
+      pr_link = contents[4].replace("(", "").replace(")", "").replace(")", "")
+      reference = "#{repo}\nBuild: #{build_link}\nPR: #{pr_link}"
 
       # compose message text
       if /(failed|errored)/.exec(test_result)
         # test failed and notify to the commiter
-        text = "OMG!! @#{slack_username} , travis test #{test_result} :cry: Please check it.\n #{reference}"
+        text = "OMG!! @#{slack_username}, travis test #{test_result} :cry: Please check it.\n#{reference}"
       else
         # test passed and notify to the commiter and maintainers
         maintainers = ("@" + slack_username_map[name] for name in jsk_maintainers when name != author_name).join(" ")
-        text = "Good Job!! @#{slack_username} , travis test #{test_result} :+1:\n #{reference}\nHey, #{maintainers}. Please review it and merge."
+        text = "Good Job!! @#{slack_username}, travis test #{test_result} :+1:\n #{reference}\nHey, #{maintainers}. Please review it and merge."
 
       response.send text
   )
