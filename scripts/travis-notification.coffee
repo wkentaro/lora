@@ -31,9 +31,9 @@ module.exports = (robot) ->
       slack_username = slack_username_map[author_name]
       if /(failed|errored)/.exec(test_result)
         # test failed and notify to the commiter
-        response.reply "OMG!! @#{slack_username} , travis test #{test_result} :cry: Please check it ->\n #{response.message}"
+        response.send "OMG!! @#{slack_username} , travis test #{test_result} :cry: Please check it ->\n #{response.message}"
       else
         # test passed and notify to the commiter and maintainers
         maintainers = ("@" + slack_username_map[name] for name in jsk_maintainers when name != author_name).join(" ")
-        response.reply "Good Job!! @#{slack_username} , travis test #{test_result} :+1: ->\n #{response.message}\nHey, #{maintainers}. Please review it and merge."
+        response.send "Good Job!! @#{slack_username} , travis test #{test_result} :+1: ->\n #{response.message}\nHey, #{maintainers}. Please review it and merge."
   )
