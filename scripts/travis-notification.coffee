@@ -46,11 +46,11 @@ module.exports = (robot) ->
       # compose message text
       if /(failed|errored)/.exec(test_result)
         # test failed and notify to the commiter
-        text = "OMG!! @#{slack_username}, travis test #{test_result} :cry: Please check it.\n#{reference}"
+        text = "@#{slack_username}: Need some fixes!:cry:\nFwd: #{reference}"
       else
         # test passed and notify to the commiter and maintainers
         maintainers = ("@" + slack_username_map[name] for name in jsk_maintainers when name != author_name).join(" ")
-        text = "Good Job!! @#{slack_username}, travis test #{test_result} :+1:\n #{reference}\nHey, #{maintainers}. Please review it and merge."
+        text = "@#{slack_username} #{maintainers}: Review and merge!:+1:\nFwd: #{reference}"
 
       response.send text
   )
