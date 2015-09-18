@@ -16,7 +16,7 @@ module.exports = (robot) ->
     "Eisoku Kuroiwa": "eisoku9618",
     "Kei Okada": "k-okada",
     "Kentaro Wada": "wkentaro",
-    "Ryohei Ueda": "ryoheiueda",
+    "Ryohei Ueda": "garaemon",
     "Shunichi Nozawa": "nozawa",
     "Yuki Furuta": "furushchev",
   }
