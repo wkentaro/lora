@@ -25,10 +25,11 @@ module.exports = (robot) ->
     (message) ->
       message.user.name in ["Shell", "wkentaro", "Travis CI"]
     (response) ->
-      match = /by\s(.*)\s(passed|failed|errored)/.exec(response.message.text)
+      message = response.message
+
+      match = /by\s(.*)\s(passed|failed|errored)/.exec(message.text)
       author_name = match[1]
       test_result = match[2]
-      message = response.message
 
       if not slack_username_map[author_name]?
         return
@@ -37,13 +38,17 @@ module.exports = (robot) ->
       # FIXME: formatted text with hyperlink does not work
       # see: https://github.com/slackhq/hubot-slack/issues/114
       # reference = message.rawText
-      contents = message.text.split(" ")
-      repo = contents[6]
-      build_link = contents[2].replace("(", "").replace(")", "")
-      pr_link = contents[4].replace("(", "").replace(")", "").replace(")", "")
-      reference = "#{repo}\nBuild: #{build_link}\nPR: #{pr_link}"
+      match = /Build\s\#\d*\s\((.*)\)\s\(.*\s\((.*)\)\).*of\s(.*?)\s(in\sPR)?/.exec(message.text)
+      build_url = match[1]
+      pr_url = match[2]
+      repo_slug = match[3]
+      is_pr_build = match[4]?
+
+      if test_result != "passed" and not is_pr_build
+        return  # no notification for passed push build
 
       # compose message text
+      reference = "#{repo_slug}\n  Build: #{build_url}\n  PR: #{pr_url}"
       if /(failed|errored)/.exec(test_result)
         # test failed and notify to the commiter
         text = "@#{slack_username}: Need some fixes!:cry:\nFwd: #{reference}"
