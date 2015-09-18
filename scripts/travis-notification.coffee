@@ -3,6 +3,28 @@
 #   This requires integration of travis and slack described at:
 #   http://docs.travis-ci.com/user/notifications/#Slack-notifications
 
+# TODO: get github username from api
+# GitHub = require("github")
+#
+# github = new GitHub({
+#   version: "3.0.0"
+#   protocol: "https",
+#   host: "api.github.com",
+#   timeout: 5000,
+# })
+# github.authenticate({
+#     type: "oauth",
+#     token: process.env.GITHUB_TOKEN
+# })
+#
+# org = "jsk-ros-pkg"
+# github.orgs.getTeams {org: org}, (err, res) ->
+#   for team in res
+#     github.orgs.getTeamMembers {id: team.id}, (err, res) ->
+#       for user in res
+#         github.user.getFrom {"user": user.login}, (err, res) ->
+#           console.log(res.name)
+#           console.log(res.login)
 
 module.exports = (robot) ->
 
