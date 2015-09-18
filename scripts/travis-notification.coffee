@@ -29,6 +29,9 @@ module.exports = (robot) ->
       author_name = match[1]
       test_result = match[2]
       message = response.message
+
+      if not slack_username_map[author_name]?
+        return
       slack_username = slack_username_map[author_name]
 
       # FIXME: formatted text with hyperlink does not work
