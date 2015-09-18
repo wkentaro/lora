@@ -48,7 +48,7 @@ module.exports = (robot) ->
         return  # no notification for passed push build
 
       # compose message text
-      reference = "#{repo_slug}\n  Build: #{build_url}\n  PR: #{pr_url}"
+      reference = "#{repo_slug}\n     build: #{build_url}\n     pr: #{pr_url}"
       if /(failed|errored)/.exec(test_result)
         # test failed and notify to the commiter
         text = "@#{slack_username}: Need some fixes!:cry:\nFwd: #{reference}"
