@@ -52,6 +52,8 @@ module.exports = (robot) ->
       message = response.message
 
       match = /by\s(.*)\s(passed|failed|errored)/.exec(message.text)
+      if not match
+        return
       author_name = match[1]
       test_result = match[2]
 
@@ -63,6 +65,8 @@ module.exports = (robot) ->
       # see: https://github.com/slackhq/hubot-slack/issues/114
       # reference = message.rawText
       match = /Build\s\#\d*\s\((.*)\)\s\(.*\s\((.*)\)\).*of\s(.*?)\s(in\sPR)?/.exec(message.text)
+      if not match
+        return
       build_url = match[1]
       pr_url = match[2]
       repo_slug = match[3]
