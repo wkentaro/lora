@@ -3,6 +3,8 @@
 #   This requires integration of travis and slack described at:
 #   http://docs.travis-ci.com/user/notifications/#Slack-notifications
 
+author = "Kentaro Wada"
+
 # TODO: get github username from api
 # GitHub = require("github")
 #
@@ -45,7 +47,7 @@ module.exports = (robot) ->
 
   robot.catchAll(
     (message) ->
-      message.user.name in ["Shell", "wkentaro", "Travis CI"]
+      message.user.name in ["Shell", author, "Travis CI"]
     (response) ->
       message = response.message
 
