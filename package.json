@@ -5,6 +5,7 @@
   "author": "Kentaro Wada <www.kentaro.wada@gmail.com>",
   "description": "Robot to help Kentaro Wada.",
   "dependencies": {
+    "github": "^0.2.4",
     "githubot": "^1.0.0",
     "hubot": "^2.16.0",
     "hubot-diagnostics": "0.0.1",
