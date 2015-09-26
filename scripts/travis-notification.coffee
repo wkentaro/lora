@@ -2,8 +2,8 @@
 #   hubot scripts for notifying travis test result.
 #   This requires integration of travis and slack described at:
 #   http://docs.travis-ci.com/user/notifications/#Slack-notifications
-
-author = "Kentaro Wada"
+#
+# author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
 GitHub = require("github")
 
