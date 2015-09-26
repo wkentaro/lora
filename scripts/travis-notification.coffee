@@ -46,8 +46,6 @@ module.exports = (robot) ->
   }
 
   robot.catchAll(
-    (message) ->
-      message.user.name in ["Shell", author, "Travis CI"]
     (response) ->
       message = response.message
 
@@ -61,30 +59,39 @@ module.exports = (robot) ->
         return
       slack_username = slack_username_map[author_name]
 
-      match = /Build\s\#\d*\s\((.*)\)\s\(.*\s\((.*)\)\).*of\s(.*?)\s(in\sPR)?/.exec(message.text)
+      match = /Build\s\#\d*\s\((.*)\)\s\(.*\s\((.*)\)\).*of\s(.*?)\s(in\sPR)\s\#(\d)?/.exec(message.text)
       if not match
         return
       build_url = match[1]
       pr_url = match[2]
       repo_slug = match[3]
       is_pr_build = match[4]?
+      pr_number = match[5]
 
       if test_result != "passed" and not is_pr_build
         return  # no notification for passed push build
 
       # compose message text
-      reference = message.rawText
+      title = "#{repo_slug}\##{pr_number}: Build #{test_result}"
+      text = message.rawText
       if /(failed|errored)/.exec(test_result)
         # test failed and notify to the commiter
-        title = "@#{slack_username}: Need some fixes!:cry:"
+        fallback = "Need some fixes!:cry: - #{repo_slug}\##{pr_number}"
+        pretext =  "@#{slack_username}: Need some fixes!:cry:"
+        color = "danger"
       else
         # test passed and notify to the commiter and maintainers
         maintainers = ("@" + slack_username_map[name] for name in jsk_maintainers when name != author_name).join(" ")
-        title = "@#{slack_username} #{maintainers}: Review and merge!:+1:"
+        fallback = "Review and merge!:+1: - ${repo_slug}\##{pr_number}"
+        pretext =  "@#{slack_username} #{maintainers}: Review and merge!:+1:"
+        color = "good"
 
-      response.text = title
       response.attachments =
-        text: reference
+        fallback: fallback
+        pretext: pretext
+        title: title
+        text: text
+        color: color
 
       robot.adapter.customMessage response
   )
