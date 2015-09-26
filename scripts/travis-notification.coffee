@@ -61,9 +61,6 @@ module.exports = (robot) ->
         return
       slack_username = slack_username_map[author_name]
 
-      # FIXME: formatted text with hyperlink does not work
-      # see: https://github.com/slackhq/hubot-slack/issues/114
-      # reference = message.rawText
       match = /Build\s\#\d*\s\((.*)\)\s\(.*\s\((.*)\)\).*of\s(.*?)\s(in\sPR)?/.exec(message.text)
       if not match
         return
@@ -76,14 +73,18 @@ module.exports = (robot) ->
         return  # no notification for passed push build
 
       # compose message text
-      reference = "#{repo_slug}\n     build: #{build_url}\n     pr: #{pr_url}"
+      reference = message.rawText
       if /(failed|errored)/.exec(test_result)
         # test failed and notify to the commiter
-        text = "@#{slack_username}: Need some fixes!:cry:\nFwd: #{reference}"
+        title = "@#{slack_username}: Need some fixes!:cry:"
       else
         # test passed and notify to the commiter and maintainers
         maintainers = ("@" + slack_username_map[name] for name in jsk_maintainers when name != author_name).join(" ")
-        text = "@#{slack_username} #{maintainers}: Review and merge!:+1:\nFwd: #{reference}"
+        title = "@#{slack_username} #{maintainers}: Review and merge!:+1:"
 
-      response.send text
+      response.text = title
+      response.attachments =
+        text: reference
+
+      robot.adapter.customMessage response
   )
