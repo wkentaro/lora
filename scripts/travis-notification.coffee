@@ -55,7 +55,7 @@ module.exports = (robot) ->
               return
             slack_username = namemap[author_name]
 
-            match = /Build\s\#\d*\s\((.*)\)\s\(.*\s\((.*)\)\).*of\s(.*?)\s(in\sPR)\s\#(\d)?/.exec(message.text)
+            match = /Build\s\#\d*\s\((.*)\)\s\(.*\s\((.*)\)\).*of\s(.*?)\s(in\sPR)\s\#(\d*)/.exec(message.text)
             if not match
               return
             build_url = match[1]
