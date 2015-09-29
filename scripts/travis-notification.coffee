@@ -9,9 +9,11 @@ GitHub = require("github")
 
 
 get_maintainers = (repo_name) ->
+  # upper is more primary
   maintainers_map = [
     [/jsk-ros-pkg\/.*/, ["Ryohei Ueda"]],
     [/start-jsk\/jsk_picking_challenge/, ["Kentaro Wada"]],
+    [/start-jsk\/.*/, ["Ryohei Ueda"]],
   ]
 
   for pattern in maintainers_map
