@@ -7,6 +7,20 @@
 
 GitHub = require("github")
 
+
+get_maintainers = (repo_name) ->
+  maintainers_map = [
+    [/jsk-ros-pkg\/.*/, ["Ryohei Ueda"]],
+    [/start-jsk\/jsk_picking_challenge/, ["Kentaro Wada"]],
+  ]
+
+  for pattern in maintainers_map
+    regex = pattern[0]
+    maintainers = pattern[1]
+    if repo_name.match(regex)
+      return maintainers
+
+
 module.exports = (robot) ->
 
   github = new GitHub({
@@ -19,12 +33,6 @@ module.exports = (robot) ->
       type: "oauth"
       token: process.env.HUBOT_GITHUB_TOKEN
   })
-
-  jsk_maintainers = [
-    # "Kei Okada",
-    "Ryohei Ueda",
-    # "Shunichi Nozawa",
-  ]
 
   robot.catchAll(
     (response) ->
@@ -78,7 +86,8 @@ module.exports = (robot) ->
               color = "danger"
             else
               # test passed and notify to the commiter and maintainers
-              maintainers = ("@" + namemap[name] for name in jsk_maintainers when name != author_name).join(" ")
+              maintainers = get_maintainers(repo_slug)
+              maintainers = ("@" + namemap[name] for name in maintainers when name != author_name).join(" ")
               fallback = "Review and merge!:+1: - ${repo_slug}\##{pr_number}"
               pretext =  "@#{slack_username} #{maintainers}: Review and merge!:+1:"
               color = "good"
