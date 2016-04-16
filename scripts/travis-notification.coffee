@@ -88,7 +88,7 @@ module.exports = (robot) ->
               # test passed and notify to the commiter and maintainers
               maintainers = get_maintainers(repo_slug)
               maintainers = ("@" + namemap[name] for name in maintainers when name != author_name).join(" ")
-              fallback = "Review and merge!:+1: - ${repo_slug}\##{pr_number}"
+              fallback = "Review and merge!:+1: - #{repo_slug}\##{pr_number}"
               pretext =  "@#{slack_username} #{maintainers}: Review and merge!:+1:"
               color = "good"
 
