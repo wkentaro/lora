@@ -11,7 +11,7 @@ GitHub = require("github")
 get_maintainers = (repo_name) ->
   # upper is more primary
   maintainers_map = [
-    [/start-jsk\/jsk_apc/, ["Kentaro Wada"]],
+    # [/start-jsk\/jsk_apc/, ["Kentaro Wada"]],
   ]
 
   for pattern in maintainers_map
